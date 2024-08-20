@@ -26,6 +26,11 @@ io.on('connection', (socket) => {
     // Emitir a contagem de clientes para todos os clientes conectados
     io.emit('client_count', connectedClients);
 
+    // Evento para receber e repassar a mensagem
+    socket.on('message', (message) => {
+        io.emit('message', { id: socket.id, text: message });
+    });
+
     socket.on('disconnect', () => {
         connectedClients--;
         console.log(`Cliente desconectado. ID: ${socket.id}. Total de clientes: ${connectedClients}`);
